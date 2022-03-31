@@ -4,7 +4,7 @@ on:
     types: [created]
 jobs:
   build:
-    name: HelloWorld on ${{ matrix.os }}
+    name: Build on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -22,10 +22,10 @@ jobs:
       - name: Build and run HelloWorld.java
         run: |
           chmod +x ./mvnw
-          ./mvnw clean package -DskipTests=true -P native
+          ./mvnw clean package -DskipTests=true -P native -Dbuild.finalName=maven-builder-${{ matrix.os }}
 
       - name: Upload binary
         uses: actions/upload-artifact@v2
         with:
-          name: helloworld-${{ matrix.os }}
-          path: helloworld*
+          name: maven-builder-${{ matrix.os }}
+          path: target/*
